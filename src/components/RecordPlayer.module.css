@@ -54,7 +54,8 @@
   height: 240px;
   border-radius: 50%;
   position: relative;
-  animation: spin 4s linear infinite paused;
+  animation: spin 4s linear infinite;
+  animation-play-state: paused;
   will-change: transform;
 }
 
