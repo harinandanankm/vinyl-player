@@ -60,9 +60,9 @@ export function RecordPlayer({
                   <div className={styles.artPlaceholder}>{trackName.substring(0, 4).toUpperCase()}</div>
                 )}
               </div>
-              <div className={styles.spindle} aria-hidden="true" />
             </div>
           </div>
+          <div className={styles.spindle} aria-hidden="true" />
           <div className={styles.tonearmWrap} aria-hidden="true">
             <div className={styles.tonearmPivot} />
             <svg className={styles.tonearmSvg} style={{ transform: "rotate(" + tonearmRotation + ")" }} viewBox="0 0 120 260" fill="none">
