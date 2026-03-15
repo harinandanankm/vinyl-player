@@ -57,7 +57,8 @@ export function useSpotifyPlayer(accessToken: string | null) {
       });
 
       // Ready
-      player.addListener("ready", ({ device_id }: unknown) => {
+      player.addListener("ready", (data: unknown) => {
+        const { device_id } = data as { device_id: string };
         console.log("Spotify SDK ready, device:", device_id);
         setState((s) => ({ ...s, deviceId: device_id as string, ready: true, player, error: null }));
       });
