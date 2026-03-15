@@ -406,3 +406,8 @@
   .tonearmWrap { right: -20px; width: 100px; height: 220px; }
   .tonearmSvg { transform-origin: 92px 20px; }
 }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
