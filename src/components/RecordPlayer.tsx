@@ -50,7 +50,7 @@ export function RecordPlayer({
       <div className={styles.topSection}>
         <div className={styles.platterArea}>
           <div className={styles.platter}>
-            <div className={styles.vinyl} style={{ animationPlayState: isPlaying ? "running" : "paused" }}>
+            <div className={`${styles.vinyl} ${isPlaying ? styles.spinning : ""}`}>
               <div className={styles.vinylGrooves} aria-hidden="true" />
               <div className={styles.vinylSheen} aria-hidden="true" />
               <div className={styles.artRing}>
