@@ -1,0 +1,118 @@
+.main {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px 24px;
+  background: radial-gradient(ellipse at 50% 30%, #1a1208 0%, #0a0a0a 70%);
+}
+
+.vinylPreview {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #1a1a1a 0deg, #222 45deg, #1a1a1a 90deg, #222 135deg,
+    #1a1a1a 180deg, #222 225deg, #1a1a1a 270deg, #222 315deg, #1a1a1a 360deg
+  );
+  border: 2px solid #2a2a2a;
+  animation: spin 8s linear infinite;
+  box-shadow: 0 0 60px rgba(29, 185, 84, 0.12), 0 0 120px rgba(0,0,0,0.8);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinylCenter {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1DB954, #0a6b2e);
+  box-shadow: 0 0 14px rgba(29, 185, 84, 0.5);
+}
+
+.hero {
+  text-align: center;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 12vw, 112px);
+  color: var(--cream);
+  letter-spacing: 8px;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 3.5vw, 32px);
+  color: var(--green);
+  letter-spacing: 14px;
+}
+
+.tagline {
+  margin-top: 16px;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.spotifyBtn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--green);
+  color: #000;
+  text-decoration: none;
+  padding: 16px 40px;
+  border-radius: 60px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 40px rgba(29, 185, 84, 0.25);
+}
+
+.spotifyBtn:hover {
+  background: var(--green-bright);
+  transform: scale(1.04);
+  box-shadow: 0 0 60px rgba(29, 185, 84, 0.45);
+}
+
+.note {
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.errorBanner {
+  background: rgba(220, 60, 60, 0.12);
+  border: 1px solid rgba(220, 60, 60, 0.3);
+  color: #f08080;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  max-width: 400px;
+  text-align: center;
+}

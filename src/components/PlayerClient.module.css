@@ -1,0 +1,77 @@
+.scene {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 24px 16px 40px;
+  background: radial-gradient(ellipse at 50% 20%, #1a1208 0%, #0a0a0a 65%);
+}
+
+.loading {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: #0a0a0a;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.loadingVinyl {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #222;
+  border-top-color: var(--green);
+  animation: spin 1s linear infinite;
+}
+
+.error {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.relogin {
+  color: var(--green);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.relogin:hover { text-decoration: underline; }
+
+.brandBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 9px;
+  color: #2a2a2a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.logoutBtn {
+  margin-top: 8px;
+  color: #2a2a2a;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.logoutBtn:hover { color: var(--muted); }
