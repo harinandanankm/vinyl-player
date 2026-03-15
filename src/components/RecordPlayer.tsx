@@ -4,6 +4,7 @@ import Image from "next/image";
 import { SpotifyWebPlaybackTrack } from "@/types/spotify";
 import styles from "./RecordPlayer.module.css";
 import { EQBars } from "./EQBars";
+import { useScratchSound } from "@/hooks/useScratchSound";
 
 interface Props {
   track: SpotifyWebPlaybackTrack | null;
@@ -43,6 +44,7 @@ export function RecordPlayer({
   const artistName = track?.artists?.map((a) => a.name).join(", ") ?? (sdkReady ? "Play something on Spotify" : "Connecting...");
   const albumName = track?.album?.name ?? "";
   const tonearmRotation = isPlaying ? "0deg" : "-28deg";
+  const { playScratch } = useScratchSound();
 
   return (
     <div className={styles.turntable}>
@@ -113,7 +115,7 @@ export function RecordPlayer({
           <button className={styles.ctrlBtn} onClick={onPrev} aria-label="Previous">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" /></svg>
           </button>
-          <button className={styles.playBtn} onClick={onTogglePlay} disabled={!sdkReady} aria-label={isPlaying ? "Pause" : "Play"}>
+          <button className={styles.playBtn} onClick={() => { playScratch(); onTogglePlay(); }} disabled={!sdkReady} aria-label={isPlaying ? "Pause" : "Play"}>
             {isPlaying
               ? <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
               : <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
