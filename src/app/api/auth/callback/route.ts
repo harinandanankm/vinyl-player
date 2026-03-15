@@ -17,9 +17,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${appUrl}/?error=access_denied`);
   }
 
-  const cookieStore = await cookies();
-  const storedState = cookieStore.get("spotify_oauth_state")?.value;
-  if (!state || state !== storedState) {
+  const storedState = req.cookies.get("spotify_oauth_state")?.value;
+
+  if (!state || !storedState || state !== storedState) {
     return NextResponse.redirect(`${appUrl}/?error=state_mismatch`);
   }
 
@@ -29,11 +29,14 @@ export async function GET(req: NextRequest) {
 
   try {
     const tokens = await exchangeCode(code);
+    const cookieStore = await cookies();
     const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
     session.tokens = tokens;
     await session.save();
-    cookieStore.delete("spotify_oauth_state");
-    return NextResponse.redirect(`${appUrl}/player`);
+
+    const response = NextResponse.redirect(`${appUrl}/player`);
+    response.cookies.delete("spotify_oauth_state");
+    return response;
   } catch (err) {
     console.error("OAuth callback error:", err);
     return NextResponse.redirect(`${appUrl}/?error=token_exchange_failed`);
