@@ -5,9 +5,9 @@ import { cookies } from "next/headers";
 import { SessionData } from "@/types/spotify";
 
 export async function GET() {
-  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+  const cookieStore = await cookies();
+  const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
   session.destroy();
-
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
   return NextResponse.redirect(`${appUrl}/`);
 }

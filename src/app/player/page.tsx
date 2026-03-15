@@ -6,11 +6,10 @@ import { SessionData } from "@/types/spotify";
 import { PlayerClient } from "@/components/PlayerClient";
 
 export default async function PlayerPage() {
-  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
-
+  const cookieStore = await cookies();
+  const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
   if (!session.tokens) {
     redirect("/");
   }
-
   return <PlayerClient />;
 }

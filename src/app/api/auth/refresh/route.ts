@@ -6,13 +6,13 @@ import { cookies } from "next/headers";
 import { SessionData } from "@/types/spotify";
 
 export async function GET() {
-  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+  const cookieStore = await cookies();
+  const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
 
   if (!session.tokens) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  // Refresh if needed
   if (isTokenExpired(session.tokens)) {
     try {
       const newTokens = await refreshAccessToken(session.tokens.refresh_token);

@@ -13,13 +13,12 @@ export async function GET(req: NextRequest) {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-  // User denied access
   if (error) {
     return NextResponse.redirect(`${appUrl}/?error=access_denied`);
   }
 
-  // Validate CSRF state
-  const storedState = cookies().get("spotify_oauth_state")?.value;
+  const cookieStore = await cookies();
+  const storedState = cookieStore.get("spotify_oauth_state")?.value;
   if (!state || state !== storedState) {
     return NextResponse.redirect(`${appUrl}/?error=state_mismatch`);
   }
@@ -30,18 +29,10 @@ export async function GET(req: NextRequest) {
 
   try {
     const tokens = await exchangeCode(code);
-
-    // Save tokens to encrypted session cookie
-    const session = await getIronSession<SessionData>(
-      cookies(),
-      sessionOptions
-    );
+    const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
     session.tokens = tokens;
     await session.save();
-
-    // Clear state cookie
-    cookies().delete("spotify_oauth_state");
-
+    cookieStore.delete("spotify_oauth_state");
     return NextResponse.redirect(`${appUrl}/player`);
   } catch (err) {
     console.error("OAuth callback error:", err);
