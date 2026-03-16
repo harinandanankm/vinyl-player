@@ -67,8 +67,8 @@ export function RecordPlayer({
                 borderRadius: "50%",
                 position: "relative",
                 cursor: isDragging ? "grabbing" : "grab",
-                transform: `rotate(${dragRotation}deg)`,
-                transition: isDragging ? "none" : "transform 0.3s ease",
+                transform: isDragging ? `rotate(${dragRotation}deg)` : undefined,
+                transition: "none",
               }}
             >
               {/* Inner vinyl - spins via CSS animation when playing */}
