@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSpotifyToken } from "@/hooks/useSpotifyToken";
 import { useSpotifyPlayer } from "@/hooks/useSpotifyPlayer";
 import { RecordPlayer } from "@/components/RecordPlayer";
@@ -23,6 +23,29 @@ export function PlayerClient() {
   } = useSpotifyPlayer(accessToken);
 
   const { queue, fetchQueue } = usePlayerState(accessToken);
+
+  // Local progress ticker — interpolates between SDK updates
+  const [localProgress, setLocalProgress] = useState(0);
+  const tickerRef = useRef<NodeJS.Timeout | null>(null);
+  const isPlayingRef = useRef(false);
+  const progressRef = useRef(0);
+
+  useEffect(() => {
+    const sdkProgress = playbackState?.position ?? 0;
+    const playing = playbackState ? !playbackState.paused : false;
+    isPlayingRef.current = playing;
+    progressRef.current = sdkProgress;
+    setLocalProgress(sdkProgress);
+
+    if (tickerRef.current) clearInterval(tickerRef.current);
+    if (playing) {
+      tickerRef.current = setInterval(() => {
+        progressRef.current += 1000;
+        setLocalProgress(progressRef.current);
+      }, 1000);
+    }
+    return () => { if (tickerRef.current) clearInterval(tickerRef.current); };
+  }, [playbackState]);
 
   // Transfer playback to this device once ready
   const transferred = useRef(false);
@@ -70,7 +93,7 @@ export function PlayerClient() {
 
   const track = playbackState?.track_window?.current_track ?? null;
   const isPlaying = playbackState ? !playbackState.paused : false;
-  const progressMs = playbackState?.position ?? 0;
+  const progressMs = localProgress;
   const durationMs = playbackState?.duration ?? 0;
   const albumArt = track?.album?.images?.[0]?.url ?? null;
 
