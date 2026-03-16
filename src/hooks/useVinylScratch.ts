@@ -15,9 +15,8 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
   const centerRef = useRef<{ x: number; y: number } | null>(null);
   const currentProgressRef = useRef(progressMs);
   const [dragRotation, setDragRotation] = useState(0);
-  const dragRotationRef = useRef(0);
+  const totalRotation = useRef(0);
 
-  // Keep progress ref in sync
   currentProgressRef.current = progressMs;
 
   const getAngle = (clientX: number, clientY: number, center: { x: number; y: number }) => {
@@ -38,26 +37,26 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
     lastAngle.current = getAngle(clientX, clientY, centerRef.current);
-    dragRotationRef.current = 0;
     isDragging.current = true;
     playScratch();
 
     const onMove = (moveE: MouseEvent | TouchEvent) => {
       if (!isDragging.current || !centerRef.current || lastAngle.current === null) return;
 
-      const mx = "touches" in moveE ? moveE.touches[0].clientX : (moveE as MouseEvent).clientX;
-      const my = "touches" in moveE ? moveE.touches[0].clientY : (moveE as MouseEvent).clientY;
+      const mx = "touches" in moveE ? (moveE as TouchEvent).touches[0].clientX : (moveE as MouseEvent).clientX;
+      const my = "touches" in moveE ? (moveE as TouchEvent).touches[0].clientY : (moveE as MouseEvent).clientY;
 
       const newAngle = getAngle(mx, my, centerRef.current);
       let delta = newAngle - lastAngle.current;
 
-      // Handle wraparound at 180/-180
       if (delta > 180) delta -= 360;
       if (delta < -180) delta += 360;
 
       lastAngle.current = newAngle;
-      dragRotationRef.current += delta;
-      setDragRotation(dragRotationRef.current);
+
+      // Accumulate total rotation and update visual
+      totalRotation.current += delta;
+      setDragRotation(totalRotation.current);
 
       // 10 degrees = 5 seconds
       const seekDeltaMs = (delta / 10) * 5000;
@@ -69,8 +68,8 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
     const onUp = () => {
       isDragging.current = false;
       lastAngle.current = null;
-      setDragRotation(0);
       playScratch();
+      // Do NOT reset dragRotation — keep the record where it is
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
       window.removeEventListener("touchmove", onMove);
@@ -79,7 +78,7 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
 
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchmove", onMove, { passive: true });
+    window.addEventListener("touchmove", onMove, { passive: false });
     window.addEventListener("touchend", onUp);
   }, [onSeek, durationMs, playScratch]);
 
