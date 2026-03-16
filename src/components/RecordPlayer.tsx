@@ -46,7 +46,7 @@ export function RecordPlayer({
   const albumName = track?.album?.name ?? "";
   const tonearmRotation = isPlaying ? "0deg" : "-28deg";
   const { playScratch } = useScratchSound();
-  const { onMouseDown, isDragging, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, playScratch });
+  const { onMouseDown, isDragging, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, playScratch });
 
   return (
     <div className={styles.turntable}>
