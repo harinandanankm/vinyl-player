@@ -46,7 +46,7 @@ export function RecordPlayer({
   const albumName = track?.album?.name ?? "";
   const tonearmRotation = isPlaying ? "0deg" : "-28deg";
   const { playScratch } = useScratchSound();
-  const { onMouseDown, isDragging } = useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, playScratch });
+  const { onMouseDown, isDragging, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, playScratch });
 
   return (
     <div className={styles.turntable}>
@@ -57,7 +57,7 @@ export function RecordPlayer({
             <div className={`${styles.vinyl} ${isPlaying && !isDragging.current ? styles.spinning : ""}`}
               onMouseDown={onMouseDown}
               onTouchStart={onMouseDown}
-              style={{ cursor: "grab" }}>
+              style={{ cursor: isDragging.current ? "grabbing" : "grab", transform: isDragging.current ? `rotate(${dragRotation}deg)` : undefined }}>
               <div className={styles.vinylGrooves} aria-hidden="true" />
               <div className={styles.vinylSheen} aria-hidden="true" />
               <div className={styles.artRing}>

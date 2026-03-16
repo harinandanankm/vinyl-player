@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
 
 interface Options {
   onSeek: (ms: number) => void;
@@ -12,6 +12,7 @@ interface Options {
 
 export function useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, playScratch }: Options) {
   const isDragging = useRef(false);
+  const [dragRotation, setDragRotation] = useState(0);
   const lastAngle = useRef<number | null>(null);
   const accumulatedDeg = useRef(0);
   const centerRef = useRef<{ x: number; y: number } | null>(null);
@@ -50,9 +51,10 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, pla
       lastAngle.current = newAngle;
       accumulatedDeg.current += delta;
       manualRotation.current += delta;
+      setDragRotation(r => r + delta);
 
       // 360 degrees = 10 seconds of seek
-      const seekDeltaMs = (delta / 360) * 10000;
+      const seekDeltaMs = (delta / 360) * 15000;
       const newProgress = Math.max(0, Math.min(durationMs, progressMs + seekDeltaMs));
       onSeek(newProgress);
     };
@@ -60,6 +62,7 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, pla
     const onUp = () => {
       isDragging.current = false;
       lastAngle.current = null;
+      setDragRotation(0);
       playScratch();
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
@@ -73,5 +76,5 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, pla
     window.addEventListener("touchend", onUp);
   }, [onSeek, progressMs, durationMs, playScratch]);
 
-  return { onMouseDown, isDragging };
+  return { onMouseDown, isDragging, dragRotation };
 }
