@@ -102,7 +102,6 @@ export function PlayerClient() {
   return (
     <div className={styles.scene}>
       <div className={styles.layout}>
-      <LibrarySidebar accessToken={accessToken} deviceId={deviceId} currentContextUri={playbackState?.context?.uri ?? null} />
       <div className={styles.main}>
       <SearchBar accessToken={accessToken} deviceId={deviceId} />
       <RecordPlayer
@@ -123,6 +122,7 @@ export function PlayerClient() {
 
 
       </div>
+      <LibrarySidebar accessToken={accessToken} deviceId={deviceId} currentContextUri={playbackState?.context?.uri ?? null} />
       </div>
       <div className={styles.brandBadge}>
         <SpotifyIcon />
