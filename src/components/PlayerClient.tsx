@@ -5,6 +5,7 @@ import { useSpotifyToken } from "@/hooks/useSpotifyToken";
 import { useSpotifyPlayer } from "@/hooks/useSpotifyPlayer";
 import { RecordPlayer } from "@/components/RecordPlayer";
 import { TrackQueue } from "@/components/TrackQueue";
+import { SearchBar } from "@/components/SearchBar";
 import { usePlayerState } from "@/hooks/usePlayerState";
 import styles from "./PlayerClient.module.css";
 
@@ -99,6 +100,7 @@ export function PlayerClient() {
 
   return (
     <div className={styles.scene}>
+      <SearchBar accessToken={accessToken} deviceId={deviceId} />
       <RecordPlayer
         track={track}
         albumArt={albumArt}

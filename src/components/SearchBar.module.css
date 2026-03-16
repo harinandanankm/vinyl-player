@@ -1,0 +1,133 @@
+.wrapper {
+  width: 100%;
+  max-width: 680px;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #2a2010;
+  border-radius: 60px;
+  padding: 10px 18px;
+  color: var(--muted);
+  transition: border-color 0.2s;
+}
+
+.inputWrap:focus-within {
+  border-color: #c8a86b;
+}
+
+.input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--cream);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.input::placeholder { color: #3a3028; }
+
+.clear {
+  background: none;
+  border: none;
+  color: #3a3028;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.clear:hover { color: var(--muted); }
+
+.spinner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #2a2a2a;
+  border-top-color: var(--green);
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #111;
+  border: 1px solid #2a2010;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(30,21,8,0.5);
+  transition: background 0.15s;
+}
+
+.result:last-child { border-bottom: none; }
+.result:hover { background: rgba(255,255,255,0.04); }
+.result.loading { opacity: 0.5; pointer-events: none; }
+
+.art {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background: #1a1a1a;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.name {
+  font-size: 12px;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+}
+
+.artist {
+  font-size: 10px;
+  color: #3a3028;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+}
+
+.duration {
+  font-size: 10px;
+  color: #3a3028;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
