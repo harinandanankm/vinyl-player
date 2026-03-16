@@ -26,6 +26,21 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
     return Math.atan2(dy, dx) * (180 / Math.PI);
   };
 
+  // Get the current visual rotation of the spinning element
+  const getCurrentRotation = (el: HTMLElement): number => {
+    // Look for the inner spinning vinyl div
+    const vinyl = el.querySelector('[class*="vinyl"]') as HTMLElement | null;
+    const target = vinyl || el;
+    const transform = window.getComputedStyle(target).transform;
+    if (!transform || transform === "none") return 0;
+    const mat = transform.match(/matrix(([^)]+))/);
+    if (!mat) return 0;
+    const values = mat[1].split(",");
+    const a = parseFloat(values[0]);
+    const b = parseFloat(values[1]);
+    return Math.round(Math.atan2(b, a) * (180 / Math.PI));
+  };
+
   const onMouseDown = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     const el = e.currentTarget as HTMLElement;
@@ -34,6 +49,11 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
     };
+
+    // Capture exact current rotation so record freezes in place
+    const currentRot = getCurrentRotation(el);
+    baseRotation.current = currentRot;
+    setDragRotation(currentRot);
 
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
@@ -69,7 +89,6 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
       setIsDragging(false);
       lastAngle.current = null;
       playScratch();
-      // Keep baseRotation as is — record stays where you left it
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
       window.removeEventListener("touchmove", onMove);

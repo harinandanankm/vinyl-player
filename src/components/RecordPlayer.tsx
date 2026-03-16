@@ -67,7 +67,7 @@ export function RecordPlayer({
                 borderRadius: "50%",
                 position: "relative",
                 cursor: isDragging ? "grabbing" : "grab",
-                transform: isDragging ? `rotate(${dragRotation}deg)` : undefined,
+                transform: isDragging ? `rotate(${dragRotation}deg)` : `rotate(${dragRotation}deg)`,
                 transition: "none",
               }}
             >
