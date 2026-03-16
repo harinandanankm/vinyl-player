@@ -116,12 +116,7 @@ export function PlayerClient() {
         onVolumeChange={setVolume}
       />
 
-      {queue.length > 0 && (
-        <TrackQueue
-          tracks={queue}
-          currentTrackId={track?.id ?? null}
-        />
-      )}
+
 
       <div className={styles.brandBadge}>
         <SpotifyIcon />
