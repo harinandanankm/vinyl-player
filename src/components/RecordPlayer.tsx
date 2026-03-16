@@ -77,6 +77,7 @@ export function RecordPlayer({
             <div
               onMouseDown={onMouseDown}
               onTouchStart={onMouseDown}
+              className={slideClass}
               style={{
                 width: "240px",
                 height: "240px",
