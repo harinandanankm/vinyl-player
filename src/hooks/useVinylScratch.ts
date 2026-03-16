@@ -10,7 +10,8 @@ interface Options {
 }
 
 export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }: Options) {
-  const isDragging = useRef(false);
+  const isDraggingState = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
   const lastAngle = useRef<number | null>(null);
   const centerRef = useRef<{ x: number; y: number } | null>(null);
   const currentProgressRef = useRef(progressMs);
@@ -37,11 +38,12 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
     lastAngle.current = getAngle(clientX, clientY, centerRef.current);
-    isDragging.current = true;
+    isDraggingState.current = true;
+    setIsDragging(true);
     playScratch();
 
     const onMove = (moveE: MouseEvent | TouchEvent) => {
-      if (!isDragging.current || !centerRef.current || lastAngle.current === null) return;
+      if (!isDraggingState.current || !centerRef.current || lastAngle.current === null) return;
 
       const mx = "touches" in moveE ? (moveE as TouchEvent).touches[0].clientX : (moveE as MouseEvent).clientX;
       const my = "touches" in moveE ? (moveE as TouchEvent).touches[0].clientY : (moveE as MouseEvent).clientY;
@@ -53,12 +55,9 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
       if (delta < -180) delta += 360;
 
       lastAngle.current = newAngle;
-
-      // Accumulate total rotation and update visual
       totalRotation.current += delta;
       setDragRotation(totalRotation.current);
 
-      // 10 degrees = 5 seconds
       const seekDeltaMs = (delta / 10) * 5000;
       const newProgress = Math.max(0, Math.min(durationMs, currentProgressRef.current + seekDeltaMs));
       currentProgressRef.current = newProgress;
@@ -66,10 +65,12 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
     };
 
     const onUp = () => {
-      isDragging.current = false;
+      isDraggingState.current = false;
+      setIsDragging(false);
+      setDragRotation(0);
+      totalRotation.current = 0;
       lastAngle.current = null;
       playScratch();
-      // Do NOT reset dragRotation — keep the record where it is
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
       window.removeEventListener("touchmove", onMove);

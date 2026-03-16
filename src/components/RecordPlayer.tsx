@@ -40,7 +40,7 @@ export function RecordPlayer({
   const tonearmRotation = isPlaying ? "0deg" : "-28deg";
 
   const { playScratch } = useScratchSound();
-  const { onMouseDown, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, playScratch });
+  const { onMouseDown, isDragging, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, playScratch });
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -66,13 +66,13 @@ export function RecordPlayer({
                 height: "240px",
                 borderRadius: "50%",
                 position: "relative",
-                cursor: dragRotation !== 0 ? "grabbing" : "grab",
+                cursor: isDragging ? "grabbing" : "grab",
                 transform: `rotate(${dragRotation}deg)`,
-                transition: dragRotation === 0 ? "transform 0.3s ease" : "none",
+                transition: isDragging ? "none" : "transform 0.3s ease",
               }}
             >
               {/* Inner vinyl - spins via CSS animation when playing */}
-              <div className={`${styles.vinyl} ${isPlaying && dragRotation === 0 ? styles.spinning : ""}`}>
+              <div className={`${styles.vinyl} ${isPlaying && !isDragging ? styles.spinning : ""}`}>
                 <div className={styles.vinylGrooves} aria-hidden="true" />
                 <div className={styles.vinylSheen} aria-hidden="true" />
                 <div className={styles.artRing}>
