@@ -61,15 +61,20 @@ export function SearchBar({ accessToken, deviceId }: Props) {
     setQuery("");
     setResults([]);
     try {
+      // Add to queue first, then skip to it
       await fetch(
-        `https://api.spotify.com/v1/me/player/play${deviceId ? `?device_id=${deviceId}` : ""}`,
+        `https://api.spotify.com/v1/me/player/queue?uri=${encodeURIComponent(track.uri)}${deviceId ? `&device_id=${deviceId}` : ""}`,
         {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ uris: [track.uri] }),
+          method: "POST",
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      // Skip to next which will be our queued song
+      await fetch(
+        "https://api.spotify.com/v1/me/player/next",
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
     } catch {
