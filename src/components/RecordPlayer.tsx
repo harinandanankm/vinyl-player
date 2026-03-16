@@ -54,13 +54,13 @@ export function RecordPlayer({
       <div className={styles.topSection}>
         <div className={styles.platterArea}>
           <div className={styles.platter}>
-            <div className={`${styles.vinyl} ${isPlaying && !isDragging.current ? styles.spinning : ""}`}
+            <div className={`${styles.vinyl} ${isPlaying && dragRotation === 0 ? styles.spinning : ""}`}
               onMouseDown={onMouseDown}
               onTouchStart={onMouseDown}
               style={{
-                cursor: isDragging.current ? "grabbing" : "grab",
-                transform: isDragging.current ? `rotate(${dragRotation}deg)` : undefined,
-                animationPlayState: isDragging.current ? "paused" : undefined
+                cursor: dragRotation !== 0 ? "grabbing" : "grab",
+                transform: dragRotation !== 0 ? `rotate(${dragRotation}deg)` : undefined,
+                animationPlayState: dragRotation !== 0 ? "paused" : undefined
               }}>
               <div className={styles.vinylGrooves} aria-hidden="true" />
               <div className={styles.vinylSheen} aria-hidden="true" />
