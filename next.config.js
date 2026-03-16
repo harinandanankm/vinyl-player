@@ -12,6 +12,9 @@ const nextConfig = {
       { protocol: "https", hostname: "i.scdn.co" },
       { protocol: "https", hostname: "mosaic.scdn.co" },
       { protocol: "https", hostname: "*.spotify.com" },
+      { protocol: "https", hostname: "*.spotifycdn.com" },
+      { protocol: "https", hostname: "image-cdn-fa.spotifycdn.com" },
+      { protocol: "https", hostname: "image-cdn-ak.spotifycdn.com" },
     ],
   },
 };

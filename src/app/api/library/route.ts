@@ -35,8 +35,12 @@ export async function GET() {
     likedRes.json(),
   ]);
 
+  const playlists = (playlistsData.items ?? []).map((p: Record<string, unknown>) => ({
+    ...p,
+    tracks: p.items || p.tracks || { total: 0 },
+  }));
   return NextResponse.json({
-    playlists: playlistsData.items ?? [],
+    playlists,
     likedTotal: likedData.total ?? 0,
   });
 }
