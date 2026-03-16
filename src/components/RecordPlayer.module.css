@@ -403,11 +403,14 @@
 @media (max-width: 600px) {
   .turntable { padding: 20px 16px 20px; }
   .topSection { flex-direction: column; align-items: center; gap: 20px; }
-  .infoPanel { height: auto; }
-  .platter { width: 220px; height: 220px; }
+  .infoPanel { height: auto; width: 100%; text-align: center; }
+  .platterArea { display: flex; justify-content: center; width: 100%; padding-left: 50px; }
+  .platter { width: 220px; height: 220px; flex-shrink: 0; }
   .vinyl { width: 200px; height: 200px; }
-  .tonearmWrap { right: -20px; width: 100px; height: 220px; }
+  .tonearmWrap { right: -28px; width: 100px; height: 220px; }
   .tonearmSvg { transform-origin: 92px 20px; }
+  .nowPlayingLabel { justify-content: center; }
+  .rpmRow { justify-content: center; }
 }
 
 @keyframes spin {
