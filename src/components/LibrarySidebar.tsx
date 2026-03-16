@@ -113,11 +113,11 @@ export function LibrarySidebar({ accessToken, deviceId, currentContextUri }: Pro
       />
       <div className={styles.divider} />
       <div className={styles.label}>Playlists</div>
-      {playlists.map((p) => (
+      {playlists.filter((p) => p && p.tracks).map((p) => (
         <VinylItem
           key={p.id}
           name={p.name}
-          count={p.tracks.total}
+          count={p.tracks?.total ?? 0}
           uri={p.uri}
           currentContextUri={currentContextUri}
           onPlay={playContext}
