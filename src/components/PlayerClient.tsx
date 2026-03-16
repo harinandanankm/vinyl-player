@@ -6,6 +6,7 @@ import { useSpotifyPlayer } from "@/hooks/useSpotifyPlayer";
 import { RecordPlayer } from "@/components/RecordPlayer";
 import { TrackQueue } from "@/components/TrackQueue";
 import { SearchBar } from "@/components/SearchBar";
+import { LibrarySidebar } from "@/components/LibrarySidebar";
 import { usePlayerState } from "@/hooks/usePlayerState";
 import styles from "./PlayerClient.module.css";
 
@@ -100,6 +101,9 @@ export function PlayerClient() {
 
   return (
     <div className={styles.scene}>
+      <div className={styles.layout}>
+      <LibrarySidebar accessToken={accessToken} deviceId={deviceId} currentContextUri={playbackState?.context?.uri ?? null} />
+      <div className={styles.main}>
       <SearchBar accessToken={accessToken} deviceId={deviceId} />
       <RecordPlayer
         track={track}
@@ -118,6 +122,8 @@ export function PlayerClient() {
 
 
 
+      </div>
+      </div>
       <div className={styles.brandBadge}>
         <SpotifyIcon />
         Powered by Spotify
