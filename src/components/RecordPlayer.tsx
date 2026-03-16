@@ -54,14 +54,18 @@ export function RecordPlayer({
       <div className={styles.topSection}>
         <div className={styles.platterArea}>
           <div className={styles.platter}>
-            <div className={`${styles.vinyl} ${isPlaying && dragRotation === 0 ? styles.spinning : ""}`}
+            <div
               onMouseDown={onMouseDown}
               onTouchStart={onMouseDown}
               style={{
+                width: "240px",
+                height: "240px",
+                borderRadius: "50%",
                 cursor: dragRotation !== 0 ? "grabbing" : "grab",
-                transform: dragRotation !== 0 ? `rotate(${dragRotation}deg)` : undefined,
-                animationPlayState: dragRotation !== 0 ? "paused" : undefined
+                transform: `rotate(${dragRotation}deg)`,
+                transition: dragRotation === 0 ? "transform 0.3s ease" : "none",
               }}>
+            <div className={`${styles.vinyl} ${isPlaying && dragRotation === 0 ? styles.spinning : ""}`}>
               <div className={styles.vinylGrooves} aria-hidden="true" />
               <div className={styles.vinylSheen} aria-hidden="true" />
               <div className={styles.artRing}>
