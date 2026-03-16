@@ -57,7 +57,11 @@ export function RecordPlayer({
             <div className={`${styles.vinyl} ${isPlaying && !isDragging.current ? styles.spinning : ""}`}
               onMouseDown={onMouseDown}
               onTouchStart={onMouseDown}
-              style={{ cursor: isDragging.current ? "grabbing" : "grab", transform: isDragging.current ? `rotate(${dragRotation}deg)` : undefined }}>
+              style={{
+                cursor: isDragging.current ? "grabbing" : "grab",
+                transform: isDragging.current ? `rotate(${dragRotation}deg)` : undefined,
+                animationPlayState: isDragging.current ? "paused" : undefined
+              }}>
               <div className={styles.vinylGrooves} aria-hidden="true" />
               <div className={styles.vinylSheen} aria-hidden="true" />
               <div className={styles.artRing}>
