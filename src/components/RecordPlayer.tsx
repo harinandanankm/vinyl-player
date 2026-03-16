@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
 import { SpotifyWebPlaybackTrack } from "@/types/spotify";
 import styles from "./RecordPlayer.module.css";
 import { EQBars } from "./EQBars";
@@ -38,6 +39,21 @@ export function RecordPlayer({
   const artistName = track?.artists?.map((a) => a.name).join(", ") ?? (sdkReady ? "Play something on Spotify" : "Connecting...");
   const albumName = track?.album?.name ?? "";
   const tonearmRotation = isPlaying ? "0deg" : "-28deg";
+
+  const [slideClass, setSlideClass] = useState("");
+  const prevTrackId = useRef<string | null>(null);
+
+  useEffect(() => {
+    const currentId = track?.id ?? null;
+    if (prevTrackId.current !== null && currentId !== null && currentId !== prevTrackId.current) {
+      setSlideClass(styles.vinylSlideOut);
+      setTimeout(() => {
+        setSlideClass(styles.vinylSlideIn);
+        setTimeout(() => setSlideClass(""), 500);
+      }, 500);
+    }
+    prevTrackId.current = currentId;
+  }, [track?.id]);
 
   const { playScratch } = useScratchSound();
   const { onMouseDown, isDragging, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, playScratch, isPlaying });
