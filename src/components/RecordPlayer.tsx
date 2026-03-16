@@ -40,7 +40,7 @@ export function RecordPlayer({
   const tonearmRotation = isPlaying ? "0deg" : "-28deg";
 
   const { playScratch } = useScratchSound();
-  const { onMouseDown, isDragging, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, playScratch });
+  const { onMouseDown, isDragging, dragRotation } = useVinylScratch({ onSeek, progressMs, durationMs, playScratch, isPlaying });
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -67,7 +67,7 @@ export function RecordPlayer({
                 borderRadius: "50%",
                 position: "relative",
                 cursor: isDragging ? "grabbing" : "grab",
-                transform: isDragging ? `rotate(${dragRotation}deg)` : `rotate(${dragRotation}deg)`,
+                transform: isDragging ? `rotate(${dragRotation}deg)` : undefined,
                 transition: "none",
               }}
             >

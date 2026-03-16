@@ -1,44 +1,45 @@
 "use client";
 
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 
 interface Options {
   onSeek: (ms: number) => void;
   progressMs: number;
   durationMs: number;
   playScratch: () => void;
+  isPlaying: boolean;
 }
 
-export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }: Options) {
+export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch, isPlaying }: Options) {
   const isDraggingRef = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
   const lastAngle = useRef<number | null>(null);
   const centerRef = useRef<{ x: number; y: number } | null>(null);
   const currentProgressRef = useRef(progressMs);
-  const baseRotation = useRef(0);
   const [dragRotation, setDragRotation] = useState(0);
+  const spinAngle = useRef(0);
+  const lastTickTime = useRef<number>(Date.now());
 
   currentProgressRef.current = progressMs;
+
+  // Track spin angle continuously so we know exact position when user clicks
+  useEffect(() => {
+    if (!isPlaying || isDraggingRef.current) return;
+    const RPM = 33.3;
+    const degsPerMs = (RPM * 360) / 60000;
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const elapsed = now - lastTickTime.current;
+      lastTickTime.current = now;
+      spinAngle.current = (spinAngle.current + degsPerMs * elapsed) % 360;
+    }, 16);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   const getAngle = (clientX: number, clientY: number, center: { x: number; y: number }) => {
     const dx = clientX - center.x;
     const dy = clientY - center.y;
     return Math.atan2(dy, dx) * (180 / Math.PI);
-  };
-
-  // Get the current visual rotation of the spinning element
-  const getCurrentRotation = (el: HTMLElement): number => {
-    // Look for the inner spinning vinyl div
-    const vinyl = el.querySelector('[class*="vinyl"]') as HTMLElement | null;
-    const target = vinyl || el;
-    const transform = window.getComputedStyle(target).transform;
-    if (!transform || transform === "none") return 0;
-    const mat = transform.match(/matrix(([^)]+))/);
-    if (!mat) return 0;
-    const values = mat[1].split(",");
-    const a = parseFloat(values[0]);
-    const b = parseFloat(values[1]);
-    return Math.round(Math.atan2(b, a) * (180 / Math.PI));
   };
 
   const onMouseDown = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -50,15 +51,14 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
       y: rect.top + rect.height / 2,
     };
 
-    // Capture exact current rotation so record freezes in place
-    const currentRot = getCurrentRotation(el);
-    baseRotation.current = currentRot;
-    setDragRotation(currentRot);
+    // Start drag from exact current spin position
+    setDragRotation(spinAngle.current);
 
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
     lastAngle.current = getAngle(clientX, clientY, centerRef.current);
     isDraggingRef.current = true;
+    lastTickTime.current = Date.now();
     setIsDragging(true);
     playScratch();
 
@@ -75,8 +75,8 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
       if (delta < -180) delta += 360;
 
       lastAngle.current = newAngle;
-      baseRotation.current += delta;
-      setDragRotation(baseRotation.current);
+      spinAngle.current += delta;
+      setDragRotation(spinAngle.current);
 
       const seekDeltaMs = (delta / 10) * 5000;
       const newProgress = Math.max(0, Math.min(durationMs, currentProgressRef.current + seekDeltaMs));
@@ -88,6 +88,7 @@ export function useVinylScratch({ onSeek, progressMs, durationMs, playScratch }:
       isDraggingRef.current = false;
       setIsDragging(false);
       lastAngle.current = null;
+      lastTickTime.current = Date.now();
       playScratch();
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
