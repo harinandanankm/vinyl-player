@@ -5,6 +5,7 @@ import { SpotifyWebPlaybackTrack } from "@/types/spotify";
 import styles from "./RecordPlayer.module.css";
 import { EQBars } from "./EQBars";
 import { useScratchSound } from "@/hooks/useScratchSound";
+import { useVinylScratch } from "@/hooks/useVinylScratch";
 
 interface Props {
   track: SpotifyWebPlaybackTrack | null;
@@ -45,6 +46,7 @@ export function RecordPlayer({
   const albumName = track?.album?.name ?? "";
   const tonearmRotation = isPlaying ? "0deg" : "-28deg";
   const { playScratch } = useScratchSound();
+  const { onMouseDown, isDragging } = useVinylScratch({ onSeek, progressMs, durationMs, isPlaying, playScratch });
 
   return (
     <div className={styles.turntable}>
@@ -52,7 +54,10 @@ export function RecordPlayer({
       <div className={styles.topSection}>
         <div className={styles.platterArea}>
           <div className={styles.platter}>
-            <div className={`${styles.vinyl} ${isPlaying ? styles.spinning : ""}`}>
+            <div className={`${styles.vinyl} ${isPlaying && !isDragging.current ? styles.spinning : ""}`}
+              onMouseDown={onMouseDown}
+              onTouchStart={onMouseDown}
+              style={{ cursor: "grab" }}>
               <div className={styles.vinylGrooves} aria-hidden="true" />
               <div className={styles.vinylSheen} aria-hidden="true" />
               <div className={styles.artRing}>
