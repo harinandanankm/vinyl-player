@@ -1,6 +1,7 @@
 .turntable {
-  width: 100%;
+  width: 720px;
   max-width: 720px;
+  min-width: 720px;
   background: #f0ede8;
   border-radius: 24px;
   border: 1px solid #ddd8d0;
@@ -119,7 +120,7 @@
 .tonearmWrap {
   position: absolute;
   top: -16px;
-  left: 210px;
+  left: 185px;
   width: 160px;
   height: 320px;
   pointer-events: none;
@@ -172,6 +173,8 @@
 /* â”€â”€ Info Panel â”€â”€ */
 .infoPanel {
   padding-left: 80px;
+  width: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
