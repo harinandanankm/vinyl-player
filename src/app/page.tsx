@@ -24,7 +24,7 @@ export default async function HomePage({
       <div className={styles.hero}>
         <h1 className={styles.title}>
           TURNTABLE
-          <span className={styles.subtitle}>× SPOTIFY</span>
+          
         </h1>
         <p className={styles.tagline}>Stream music. Feel the groove.</p>
       </div>
