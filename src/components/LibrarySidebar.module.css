@@ -66,9 +66,9 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 80px;
-  height: 80px;
-  border-radius: 6px;
+  width: 84px;
+  height: 84px;
+  border-radius: 0;
   overflow: hidden;
   z-index: 2;
   border: 1px solid rgba(255,255,255,0.06);
@@ -99,7 +99,7 @@
 /* Record — same size as sleeve, peeks out to the right */
 .record {
   position: absolute;
-  left: 36px;
+  left: 40px;
   top: 0;
   width: 80px;
   height: 80px;

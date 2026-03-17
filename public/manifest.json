@@ -1,6 +1,6 @@
 {
-  "name": "Vinyl — Spotify Player",
-  "short_name": "Vinyl",
+  "name": "TURNTABLE — Spotify Player",
+  "short_name": "TURNTABLE",
   "description": "A beautiful record player for Spotify",
   "start_url": "/",
   "display": "standalone",

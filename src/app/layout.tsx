@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vinyl — Spotify Player",
-  description: "A beautiful record player experience for Spotify",
+  title: "TURNTABLE — Spotify Player",
+  description: "A vinyl record player powered by Spotify",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
