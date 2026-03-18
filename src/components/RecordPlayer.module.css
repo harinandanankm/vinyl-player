@@ -4,9 +4,9 @@
   min-width: 720px;
   background: #f0ede8;
   border-radius: 24px;
-  border: 1px solid #ddd8d0;
+  border: 1px solid #b8b8b8;
   padding: 32px 32px 28px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.15);
   position: relative;
   animation: fadeUp 0.5s ease forwards;
 }
@@ -191,7 +191,7 @@
   gap: 8px;
   font-size: 9px;
   letter-spacing: 4px;
-  color: #a09880;
+  color: #888;
   text-transform: uppercase;
   margin-bottom: 12px;
 }
@@ -200,7 +200,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #a09880;
+  background: #aaa;
   flex-shrink: 0;
 }
 
@@ -212,7 +212,7 @@
 .trackTitle {
   font-family: var(--font-display);
   font-size: clamp(24px, 3.5vw, 40px);
-  color: #1a1208;
+  color: #1a1a1a;
   line-height: 1.0;
   letter-spacing: 1px;
   margin-bottom: 10px;
@@ -225,7 +225,7 @@
 
 .trackArtist {
   font-size: 11px;
-  color: #6b5f4a;
+  color: #555;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 4px;
@@ -236,7 +236,7 @@
 
 .trackAlbum {
   font-size: 10px;
-  color: #a09880;
+  color: #888;
   letter-spacing: 1px;
   font-style: italic;
   white-space: nowrap;
@@ -262,21 +262,21 @@
 
 .rpmLabel {
   font-size: 9px;
-  color: #c0b8a8;
+  color: #aaa;
   letter-spacing: 2px;
 }
 
 .sdkStatus {
   font-size: 9px;
-  color: #c0b8a8;
+  color: #aaa;
   letter-spacing: 1px;
 }
 
 /* â”€â”€ Controls â”€â”€ */
 .controls {
-  background: #e8e4de;
+  background: linear-gradient(160deg, #d8d8d8 0%, #c8c8c8 50%, #d0d0d0 100%);
   border-radius: 14px;
-  border: 1px solid #d8d4ce;
+  border: 1px solid #b8b8b8;
   padding: 18px 20px;
 }
 
@@ -284,7 +284,7 @@
 
 .progressTrack {
   height: 3px;
-  background: #ccc8c0;
+  background: #b0b0b0;
   border-radius: 3px;
   cursor: pointer;
   position: relative;
@@ -306,7 +306,7 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: #1a1208;
+  background: radial-gradient(circle at 35% 28%, #f0f0f0, #888, #555);
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
@@ -339,7 +339,7 @@
   transition: color 0.15s, transform 0.15s;
 }
 
-.ctrlBtn:hover { color: #1a1208; transform: scale(1.12); }
+.ctrlBtn:hover { color: #1a1a1a; transform: scale(1.12); }
 
 .playBtn {
   width: 58px;
@@ -351,7 +351,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f5e6c8;
+  color: #1a1a1a;
   transition: all 0.15s ease;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
@@ -371,7 +371,7 @@
   -webkit-appearance: none;
   appearance: none;
   height: 3px;
-  background: #ccc8c0;
+  background: #b0b0b0;
   border-radius: 3px;
   outline: none;
   cursor: pointer;
@@ -382,7 +382,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #8a7a60;
+  background: radial-gradient(circle at 35% 35%, #f0f0f0, #888);
   cursor: pointer;
 }
 
@@ -390,7 +390,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #8a7a60;
+  background: radial-gradient(circle at 35% 35%, #f0f0f0, #888);
   border: none;
   cursor: pointer;
 }
